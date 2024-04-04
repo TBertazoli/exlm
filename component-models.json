@@ -2287,5 +2287,98 @@
         "description": "Override default behaviour with custom Navigation"
       }
     ]
+  },
+  {
+    "id": "page-metadata",
+    "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "coveo-content-type",
+        "label": "Coveo Content Type",
+        "value": "Article",
+        "options": [
+          {
+            "name": "Article",
+            "value": "internal"
+          }
+        ]
+      },
+      {
+        "component": "aem-tag",
+        "name": "coveo-solution",
+        "label": "Coveo Solution",
+        "rootPath": "/content/cq:tags/exl/solution"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "author-type",
+        "label": "Author Type",
+        "description": "If the author is internal (Adobe) or Practioner",
+        "options": [
+          {
+            "name": "Internal",
+            "value": "internal"
+          },
+          {
+            "name": "External",
+            "value": "external"
+          }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "String",
+        "name": "author-name",
+        "label": "Author Name"
+      },
+      {
+        "component": "multiselect",
+        "name": "roles",
+        "label": "Role(s)",
+        "valueType": "string",
+        "description": "Sets the Role(s).",
+        "options": [
+          {
+            "name": "Admin",
+            "value": "Admin"
+          },
+          {
+            "name": "Developer",
+            "value": "Developer"
+          },
+          {
+            "name": "Leader",
+            "value": "Leader"
+          },
+          {
+            "name": "User",
+            "value": "User"
+          }
+        ]
+      },
+      {
+        "component": "multiselect",
+        "name": "level",
+        "label": "Experience Level(s)",
+        "valueType": "string",
+        "description": "Sets the Experience Level(s).",
+        "options": [
+          {
+            "name": "Beginner",
+            "value": "Beginner"
+          },
+          {
+            "name": "Intermediate",
+            "value": "Intermediate"
+          },
+          {
+            "name": "Advanced",
+            "value": "Advanced"
+          }
+        ]
+      }
+    ]
   }
 ]
