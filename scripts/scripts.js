@@ -191,6 +191,11 @@ export function extractAuthorInfo(block) {
   };
 }
 
+/**
+ * Fetch author bio from the given anchor element.
+ * @param {HTMLElement | string} anchor The anchor element containing the author bio.
+ * @returns {Promise} A promise that resolves to the author info.
+ */
 export async function fetchAuthorBio(anchor) {
   const link = anchor.href ? anchor.href : anchor;
   return fetch(link)
