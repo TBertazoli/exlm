@@ -169,7 +169,7 @@ function createBreadcrumb(container) {
  */
 export default async function ArticleMarquee(block) {
   loadCSS(`${window.hlx.codeBasePath}/scripts/toast/toast.css`);
-  const [link, readTime, headingType] = block.querySelectorAll(':scope div > div');
+  const [link, readTime, headingType] = [...block.children].map((row) => row.firstElementChild);
 
   const articleDetails = `<div class="article-marquee-info-container"><div class="article-info">
                                 <div class="breadcrumb"></div>
