@@ -186,7 +186,7 @@
 }
 
 /* ------- tablet ------- */
-@media (min-width: 768px) {
+@media (min-width: 600px) {
   /* for tablet change grid layout */
   .featured-authors.block {
     grid-template-columns: auto 1fr;
@@ -245,7 +245,7 @@
 }
 
 /* ------- desktop ------- */
-@media (min-width: 1304px) {
+@media (min-width: 1024px) {
   /* for tablet change grid layout */
   .featured-authors.block {
     grid-template-columns: auto 1fr 1fr;
