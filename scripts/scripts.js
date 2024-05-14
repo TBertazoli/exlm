@@ -21,7 +21,7 @@ import {
   createOptimizedPicture,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = ['marquee', 'article-marquee']; // add your LCP blocks to the list
+const LCP_BLOCKS = ['marquee', 'article-marquee', 'sign-up']; // add your LCP blocks to the list
 export const timers = new Map();
 
 // eslint-disable-next-line
