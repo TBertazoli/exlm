@@ -1150,6 +1150,12 @@ function decorateBrowseTopics(block) {
     window.headlessSolutionProductKey = productKey;
     window.headlessBaseSolutionQuery = `(${window.headlessBaseSolutionQuery} AND ${additionalQuery})`;
   }
+  // The below query is just an example. Please construct a valid one dynalically and test via postMan.
+  // eslint-disable-next-line no-useless-escape
+  const newQueries = `@el_contenttype=\"Tutorial|Documentation\"`; // Tutorial/Documentation and @el_contenttype should be generated dynamically by reading block level DOM.
+  window.headlessBaseSolutionQuery = `(${window.headlessBaseSolutionQuery} AND (${newQueries}))`; // Add it to the window.headlessBaseSolutionQuery. It can be either "AND" or "OR" condition in this string - purely based on business requirements.
+
+  // When v2 call happens, you will see ```aq: "((@el_contenttype NOT \"Community|User\") AND (@el_contenttype=\"Tutorial|Documentation\"))" ``` in the request payload. The newQueries constant got added to aq automatically.
 
   const div = document.createElement('div');
   div.classList.add('browse-topics');
