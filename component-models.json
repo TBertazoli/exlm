@@ -796,6 +796,22 @@
         "name": "rows",
         "value": "",
         "label": "Rows"
+      },
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "classes",
+        "label": "Style Type",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Border w/ alternating rows",
+            "value": "b-alt-row"
+          }
+        ]
       }
     ]
   },
@@ -1826,6 +1842,47 @@
         "valueType": "string",
         "rootPath": "/content/cq:tags/exl",
         "description": "Select up to 15 topics or features."
+      },
+      {
+        "component": "multiselect",
+        "valueType": "string",
+        "name": "contentTypes",
+        "label": "Filter by Content Type",
+        "description": "Select the content type(s).",
+        "options": [
+          {
+            "name": "Actionable Insights",
+            "value": "article"
+          },
+          {
+            "name": "Certification",
+            "value": "certification"
+          },
+          {
+            "name": "Communities",
+            "value": "community"
+          },
+          {
+            "name": "Courses",
+            "value": "course"
+          },
+          {
+            "name": "Documentation",
+            "value": "documentation"
+          },
+          {
+            "name": "On-Demand Event",
+            "value": "event"
+          },
+          {
+            "name": "Troubleshooting",
+            "value": "troubleshooting"
+          },
+          {
+            "name": "Tutorials",
+            "value": "tutorial"
+          }
+        ]
       }
     ]
   },
@@ -1968,7 +2025,8 @@
         "component": "reference",
         "valueType": "string",
         "name": "img",
-        "label": "Image"
+        "label": "Image",
+        "required": true
       },
       {
         "component": "text",
@@ -2015,25 +2073,45 @@
         ]
       },
       {
-        "component": "aem-content",
-        "valueType": "string",
-        "name": "content_link",
-        "value": "",
-        "label": "Content Page"
-      },
-      {
         "component": "richtext",
         "valueType": "string",
-        "name": "content_description",
+        "name": "description",
         "value": "",
-        "label": "Description"
+        "label": "Alternate Description",
+        "description": "Override the article's summary with this description."
+      },
+      {
+        "component": "aem-content",
+        "valueType": "string",
+        "name": "link",
+        "value": "",
+        "label": "Content Page",
+        "required": true
+      },
+      {
+        "component": "select",
+        "name": "linkType",
+        "value": "secondary",
+        "label": "CTA Type",
+        "description": "'Primary' will render button filled, 'Secondary' with an outline.",
+        "valueType": "string",
+        "options": [
+          {
+            "name": "Primary",
+            "value": "primary"
+          },
+          {
+            "name": "Secondary",
+            "value": "secondary"
+          }
+        ]
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "content_cta",
-        "value": "",
-        "label": "Content CTA Text"
+        "name": "linkText",
+        "value": "Read Article",
+        "label": "CTA Text"
       }
     ]
   },
@@ -2578,31 +2656,21 @@
         "description": "Sets the title of the page in page meta."
       },
       {
-        "component": "select",
+        "component": "aem-content",
         "valueType": "string",
-        "name": "article-theme",
-        "label": "Article Theme",
-        "value": "Adobe",
-        "options": [
-          {
-            "name": "Adobe",
-            "value": "adobe"
-          },
-          {
-            "name": "External",
-            "value": "external"
-          }
-        ]
+        "name": "author-bio-page",
+        "value": "",
+        "label": "Author Bio page URL"
       },
       {
         "component": "multiselect",
         "valueType": "string",
         "name": "coveo-content-type",
-        "label": "Coveo Content Type",
+        "label": "Content Type",
         "description": "Sets the coveo content type in page meta.",
         "options": [
           {
-            "name": "Article",
+            "name": "Actionable Insights",
             "value": "Article"
           }
         ]
@@ -2611,16 +2679,17 @@
         "component": "aem-tag",
         "valueType": "string",
         "name": "coveo-solution",
-        "label": "Coveo Solution(s)",
+        "label": "Solution(s)",
         "rootPath": "/content/cq:tags/exl/solution",
         "description": "Sets the Coveo Solution(s) in page meta."
       },
       {
-        "component": "aem-content",
+        "component": "aem-tag",
         "valueType": "string",
-        "name": "author-bio-page",
-        "value": "",
-        "label": "Author Bio page"
+        "name": "feature",
+        "label": "Feature(s)",
+        "rootPath": "/content/cq:tags/exl/feature",
+        "description": "Sets the Coveo Feature(s) in page meta."
       },
       {
         "component": "aem-tag",
@@ -3227,47 +3296,47 @@
         "options": [
           {
             "name": "Note",
-            "value": "note"
+            "value": "NOTE"
           },
           {
             "name": "Tip",
-            "value": "tip"
+            "value": "TIP"
           },
           {
             "name": "Important",
-            "value": "important"
+            "value": "IMPORTANT"
           },
           {
             "name": "Warning",
-            "value": "warning"
+            "value": "WARNING"
           },
           {
             "name": "Caution",
-            "value": "caution"
+            "value": "CAUTION"
           },
           {
             "name": "Admin",
-            "value": "admin"
+            "value": "ADMIN"
           },
           {
             "name": "Availability",
-            "value": "availability"
+            "value": "AVAILABILITY"
           },
           {
             "name": "Prerequisites",
-            "value": "prerequisites"
+            "value": "PREREQUISITES"
           },
           {
             "name": "Info",
-            "value": "info"
+            "value": "INFO"
           },
           {
             "name": "Error",
-            "value": "error"
+            "value": "ERROR"
           },
           {
             "name": "Success",
-            "value": "success"
+            "value": "SUCCESS"
           }
         ]
       },
