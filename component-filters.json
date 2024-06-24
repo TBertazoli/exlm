@@ -168,7 +168,8 @@
       "featured-authors",
       "inline-survey",
       "featured-content",
-      "note"
+      "note",
+      "tabs"
     ]
   },
   {
@@ -220,5 +221,9 @@
   {
     "id": "authorable-card",
     "components": ["authored-card"]
+  },
+  {
+    "id": "tabs",
+    "components": ["tab"]
   }
 ]
