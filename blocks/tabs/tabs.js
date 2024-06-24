@@ -28,18 +28,17 @@ export default async function decorate(block) {
   const tabIndex = block?.dataset?.tabIndex;
   if (tabIndex) {
     block.textContent = '';
-    document.querySelectorAll(`div.tab-section`).forEach((tabSection) => {
+    document.querySelectorAll(`div.tab-section`).forEach((tabSection, i) => {
       const tabTitle = tabSection?.dataset.title;
       block.innerHTML += `
       <div>
         <div>
           ${tabTitle?.trim()}
         </div>
-        <div>
-        ${tabSection.innerHTML}
-        </div>
       </div>
       `;
+      console.log(block)
+      block.children[i].appendChild(tabSection);
       if(!window.hlx.aemRoot) tabSection.remove();
     });
     await loadBlocks(block);
