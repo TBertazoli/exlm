@@ -37,7 +37,6 @@ export default async function decorate(block) {
         </div>
       </div>
       `;
-      console.log(block)
       block.children[i].appendChild(tabSection);
       if(!window.hlx.aemRoot) tabSection.remove();
     });
