@@ -294,6 +294,7 @@ async function buildTabSection(main) {
         tabs.dataset.tabIndex = tabIndex;
         tabContainer = sections[i - 1];
         tabContainer.append(tabs);
+        tabContainer.classList.add('tabs-container');
       }
       if (
         tabFound &&
