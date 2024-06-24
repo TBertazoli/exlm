@@ -297,6 +297,7 @@ async function buildTabSection(main) {
       }
       if (
         tabFound &&
+        !window.location.href.includes('.html') &&
         !sections[i + 1].querySelector('.section-metadata > div > div:nth-child(2)').textContent.includes('tab-section')
       ) {
         tabFound = false;
