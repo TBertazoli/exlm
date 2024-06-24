@@ -224,7 +224,7 @@
     "components": ["authored-card"]
   },
   {
-    "id": "tabs",
+    "id": "tab",
     "components": ["tab"]
   }
 ]
