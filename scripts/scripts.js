@@ -25,6 +25,40 @@ import {
 const LCP_BLOCKS = ['marquee', 'article-marquee']; // add your LCP blocks to the list
 export const timers = new Map();
 
+/**
+ * Moves all the attributes from a given elmenet to another given element.
+ * @param {Element} from the element to copy attributes from
+ * @param {Element} to the element to copy attributes to
+ */
+export function moveAttributes(from, to, attributes) {
+  if (!attributes) {
+    // eslint-disable-next-line no-param-reassign
+    attributes = [...from.attributes].map(({ nodeName }) => nodeName);
+  }
+  attributes.forEach((attr) => {
+    const value = from.getAttribute(attr);
+    if (value) {
+      to.setAttribute(attr, value);
+      from.removeAttribute(attr);
+    }
+  });
+}
+
+/**
+ * Move instrumentation attributes from a given element to another given element.
+ * @param {Element} from the element to copy attributes from
+ * @param {Element} to the element to copy attributes to
+ */
+export function moveInstrumentation(from, to) {
+  moveAttributes(
+    from,
+    to,
+    [...from.attributes]
+      .map(({ nodeName }) => nodeName)
+      .filter((attr) => attr.startsWith('data-aue-') || attr.startsWith('data-richtext-')),
+  );
+}
+
 // eslint-disable-next-line
 export function debounce(id = '', fn = () => void 0, ms = 250) {
   if (id.length > 0) {
@@ -310,6 +344,8 @@ async function buildTabSection(main) {
         sections[i + 1].classList.add('delete-this-section');
       }
       section.classList.add(`tab-index-${tabIndex}`);
+      moveInstrumentation(section, section);
+      console.log(section)
     }
   });
   main.querySelectorAll('.delete-this-section').forEach((section) => {
