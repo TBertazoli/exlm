@@ -332,6 +332,39 @@ function addMiniToc(main) {
   }
 }
 
+
+/**
+ * Custom - Loads and builds layout for articles page
+ */
+async function loadArticles() {
+    loadCSS(`${window.hlx.codeBasePath}/scripts/articles/articles.css`);
+    const mod = await import('./articles/articles.js');
+    if (mod.default) {
+      await mod.default();
+    }
+    const contentContainer = document.createElement('div');
+    contentContainer.classList.add('article-content-container');
+    if (!document.querySelector('main > .article-content-section, main > .tab-section')) {
+      document.querySelector('main > .mini-toc-section').remove();
+    } else {
+      document
+        .querySelectorAll('main > .article-content-section, main > .tab-section, main > .mini-toc-section')
+        .forEach((section) => {
+          contentContainer.append(section);
+        });
+      if (document.querySelector('.article-header-section')) {
+        document.querySelector('.article-header-section').after(contentContainer);
+      } else {
+        document.querySelector('main').prepend(contentContainer);
+      }
+    }
+    loadBlocks(contentContainer).then(()=>{
+      if(contentContainer.querySelector(".mini-toc.block"))
+      contentContainer.querySelector(".mini-toc.block").style.display = null;
+    });
+}
+
+
 /**
  * Tabbed layout for Tab section
  * @param {HTMLElement} main
@@ -403,6 +436,7 @@ function buildAutoBlocks(main) {
     // eslint-disable-next-line no-use-before-define
     if (isArticlePage()) {
       addMiniToc(main);
+      loadArticles()
     }
     if (isProfilePage()) {
       addProfileTab(main);
@@ -1069,35 +1103,6 @@ async function loadRails() {
   }
 }
 
-/**
- * Custom - Loads and builds layout for articles page
- */
-async function loadArticles() {
-  if (isArticlePage()) {
-    loadCSS(`${window.hlx.codeBasePath}/scripts/articles/articles.css`);
-    const mod = await import('./articles/articles.js');
-    if (mod.default) {
-      await mod.default();
-    }
-    const contentContainer = document.createElement('div');
-    contentContainer.classList.add('article-content-container');
-    if (!document.querySelector('main > .article-content-section, main > .tab-section')) {
-      document.querySelector('main > .mini-toc-section').remove();
-    } else {
-      document
-        .querySelectorAll('main > .article-content-section, main > .tab-section, main > .mini-toc-section')
-        .forEach((section) => {
-          contentContainer.append(section);
-        });
-      if (document.querySelector('.article-header-section')) {
-        document.querySelector('.article-header-section').after(contentContainer);
-      } else {
-        document.querySelector('main').prepend(contentContainer);
-      }
-    }
-  }
-}
-
 function showBrowseBackgroundGraphic() {
   if (isBrowsePage()) {
     const main = document.querySelector('main');
@@ -1339,7 +1344,6 @@ async function loadPage() {
   // END OF TEMPORARY FOR SUMMIT.
   await loadEager(document);
   await loadLazy(document);
-  loadArticles();
   loadRails();
   loadDelayed();
   showBrowseBackgroundGraphic();
