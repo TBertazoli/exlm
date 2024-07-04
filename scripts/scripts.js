@@ -314,56 +314,37 @@ function addProfileTab(main) {
  * @param {HTMLElement} main
  */
 function addMiniToc(main) {
-  if (
-    document.querySelectorAll('.mini-toc').forEach((toc) => {
-      toc.remove();
-    })
-  );
   const tocSection = document.createElement('div');
   tocSection.classList.add('mini-toc-section');
   tocSection.append(buildBlock('mini-toc', []));
-  const contentContainer = document.createElement('div');
-  contentContainer.classList.add('content-container');
-  if (document.querySelector('.article-marquee')) {
-    const articleMarquee = document.querySelector('.article-marquee');
-    articleMarquee.parentNode.insertAdjacentElement('afterend', tocSection);
-  } else {
-    main.prepend(tocSection);
-  }
+  main.append(tocSection);
 }
-
 
 /**
  * Custom - Loads and builds layout for articles page
  */
-async function loadArticles() {
-    loadCSS(`${window.hlx.codeBasePath}/scripts/articles/articles.css`);
-    const mod = await import('./articles/articles.js');
-    if (mod.default) {
-      await mod.default();
-    }
-    const contentContainer = document.createElement('div');
-    contentContainer.classList.add('article-content-container');
-    if (!document.querySelector('main > .article-content-section, main > .tab-section')) {
-      document.querySelector('main > .mini-toc-section').remove();
-    } else {
-      document
-        .querySelectorAll('main > .article-content-section, main > .tab-section, main > .mini-toc-section')
-        .forEach((section) => {
-          contentContainer.append(section);
-        });
-      if (document.querySelector('.article-header-section')) {
-        document.querySelector('.article-header-section').after(contentContainer);
-      } else {
-        document.querySelector('main').prepend(contentContainer);
-      }
-    }
-    loadBlocks(contentContainer).then(()=>{
-      if(contentContainer.querySelector(".mini-toc.block"))
-      contentContainer.querySelector(".mini-toc.block").style.display = null;
-    });
+async function loadArticles(main) {
+  loadCSS(`${window.hlx.codeBasePath}/scripts/articles/articles.css`);
+  const mod = await import('./articles/articles.js');
+  if (mod.default) {
+    await mod.default();
+  }
+  // Temporary fix - remove all mini-tocs (Until we run a groovy script in aem to remove all the mini TOC entries)
+  document.querySelectorAll('.article-content-section > .mini-toc-wrapper').forEach((miniToc) => {
+    miniToc.remove();
+  });
+  const contentContainer = document.createElement('div');
+  contentContainer.classList.add('article-content-container');
+  main.querySelectorAll('main > .article-content-section, main > .tab-section').forEach((section) => {
+    contentContainer.append(section);
+  });
+  if (document.querySelector('.article-header-section')) {
+    document.querySelector('.article-header-section').after(contentContainer);
+  } else {
+    document.querySelector('main').prepend(contentContainer);
+  }
+  contentContainer.append(main.querySelector('.mini-toc-section'));
 }
-
 
 /**
  * Tabbed layout for Tab section
@@ -435,8 +416,8 @@ function buildAutoBlocks(main) {
     }
     // eslint-disable-next-line no-use-before-define
     if (isArticlePage()) {
+      loadArticles(main);
       addMiniToc(main);
-      loadArticles()
     }
     if (isProfilePage()) {
       addProfileTab(main);
@@ -1022,7 +1003,9 @@ async function loadLazy(doc) {
   loadIms(); // start it early, asyncronously
   await loadThemes();
   await loadBlocks(main);
-
+  if (isArticlePage()) {
+    await loadBlocks(main.querySelector('.article-content-container'));
+  }
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
