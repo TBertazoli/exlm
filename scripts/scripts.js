@@ -1248,6 +1248,27 @@ export function decoratePlaceholders(element) {
   });
 }
 
+/**
+ * Sets the content of metadata tags.
+ */
+function setMetadata(name, content) {
+  const attr = name && name.includes(':') ? 'property' : 'name';
+  const existingMetaTags = [...document.head.querySelectorAll(`meta[${attr}="${name}"]`)];
+
+  if (existingMetaTags.length === 0) {
+    // Create a new meta tag if it doesn't exist
+    const newMetaTag = document.createElement('meta');
+    newMetaTag.setAttribute(attr, name);
+    newMetaTag.content = content;
+    document.head.appendChild(newMetaTag);
+  } else {
+    // Update existing meta tags
+    existingMetaTags.forEach((metaTag) => {
+      metaTag.content = content;
+    });
+  }
+}
+
 function formatPageMetaTags(inputString) {
   return inputString
     .replace(/exl:[^/]*\/*/g, '')
@@ -1260,7 +1281,15 @@ function decodeAemPageMetaTags() {
   const roleMeta = document.querySelector(`meta[name="role"]`);
   const levelMeta = document.querySelector(`meta[name="level"]`);
   const featureMeta = document.querySelector(`meta[name="feature"]`);
+  const coveoContentTypeMeta = document.querySelector(`meta[name="coveo-content-type"]`);
+  if (coveoContentTypeMeta) setMetadata('type', coveoContentTypeMeta.content);
 
+  // TEMP: Updated Article content type to Perspective
+  if (coveoContentTypeMeta && coveoContentTypeMeta.content === 'Article') {
+    const updatedCoveoContentType = 'Perspective';
+    setMetadata('coveo-content-type', updatedCoveoContentType);
+    setMetadata('type', updatedCoveoContentType);
+  }
   const solutions = solutionMeta ? formatPageMetaTags(solutionMeta.content) : [];
   const features = featureMeta ? formatPageMetaTags(featureMeta.content) : [];
   const roles = roleMeta ? formatPageMetaTags(roleMeta.content) : [];
